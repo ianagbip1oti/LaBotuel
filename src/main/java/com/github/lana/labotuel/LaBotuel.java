@@ -1,21 +1,18 @@
 package com.github.lana.labotuel;
 
 import com.github.lana.eriscasper.ErisCasper;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import com.github.lana.eriscasper.Message;
 
 public class LaBotuel {
   public static void main(String[] args) throws Exception {
-    ErisCasper.create()
-        .events()
-        .ofType(MessageReceivedEvent.class)
-        .filter(e -> e instanceof MessageReceivedEvent)
-        .map(e -> (MessageReceivedEvent) e)
-        .filter(e -> e.getMessage().getContentRaw().startsWith("!ping"))
-        .subscribe(
-            e ->
-                e.getTextChannel()
-                    .sendMessage(new MessageBuilder().append("pong").build())
-                    .queue());
+    ErisCasper ec = ErisCasper.create();
+
+    Message.from(ec)
+        .filter(m -> m.getContent().startsWith("+ping"))
+        .subscribe(m -> m.reply("pong"));
+
+    Message.from(ec)
+        .filter(m -> m.getContent().startsWith("+echo"))
+        .subscribe(m -> m.reply(m.getContent().substring(5)));
   }
 }
