@@ -8,6 +8,7 @@ public class LaBotuel {
   public static void main(String[] args) throws Exception {
     ErisCasper.create()
         .events()
+        .ofType(MessageReceivedEvent.class)
         .filter(e -> e instanceof MessageReceivedEvent)
         .map(e -> (MessageReceivedEvent) e)
         .filter(e -> e.getMessage().getContentRaw().startsWith("!ping"))
