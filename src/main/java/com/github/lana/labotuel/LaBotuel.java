@@ -9,10 +9,10 @@ public class LaBotuel {
 
     Message.from(ec)
         .filter(m -> m.getContent().startsWith("+ping"))
-        .subscribe(m -> m.reply("pong"));
+        .subscribe(m -> m.reply("pong").subscribe());
 
     Message.from(ec)
         .filter(m -> m.getContent().startsWith("+echo"))
-        .subscribe(m -> m.reply(m.getContent().substring(5)));
+        .subscribe(m -> m.reply(m.getContent().substring(5)).subscribe());
   }
 }
