@@ -1,18 +1,13 @@
 package com.github.lana.labotuel;
 
-import com.github.lana.eriscasper.ErisCasper;
-import com.github.lana.eriscasper.Message;
+import com.github.princesslana.eriscasper.ErisCasper;
+import com.github.princesslana.eriscasper.robot.Robot;
 
 public class LaBotuel {
   public static void main(String[] args) throws Exception {
-    ErisCasper ec = ErisCasper.create();
+    Robot r = Robot.from(ErisCasper.create());
 
-    Message.from(ec)
-        .filter(m -> m.getContent().startsWith("+ping"))
-        .subscribe(m -> m.reply("pong").subscribe());
-
-    Message.from(ec)
-        .filter(m -> m.getContent().startsWith("+echo"))
-        .subscribe(m -> m.reply(m.getContent().substring(5)).subscribe());
+    r.respond("ping", ctx -> ctx.reply("pong"));
+    r.respond("echo (.*)", ctx -> ctx.reply(ctx.getGroup(1)));
   }
 }
